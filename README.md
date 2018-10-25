@@ -23,7 +23,7 @@ Then, from Sublime View menu, view->syntax->Excel Formulas. You can also switch 
 ### What is missing:
 As you've hopefully realised, we're trying to provide some hope in reformatting complicated Excel formula. This does not handle all Excel Functions, or provide help with Function attributes. However, the ability to add line breaks makes everything more readable, while the syntax highlighting also helps.
 No custom colours have been defined, so that they do not clash with your preferred 'Color Scheme'.
-- [] Improved handling of Table names
+- [ ] Improved handling of Table names
 - [x] Highlighting volatile Functions: CELL,INDIRECT,INFO,NOW,OFFSET,RAND,TODAY
 
 ## Additional Resources:
