@@ -26,6 +26,7 @@ contexts:
     - include: characters
     - include: characters2
     - include: booleans
+    - include: volatile
     - include: strings
     - include: braces
 
@@ -38,7 +39,7 @@ contexts:
     - match: '(IFERROR|iferror|ifs|if|IFS|IF)'
       scope: keyword.control.excel
       # scope: entity.name.type.excel
-      # scope: entity.name.fucntion.excel
+      # scope: entity.name.function.excel
 
   comparisons:
     - match: '(?i)(AVERAGEIF|AVERAGEIFS|COUNTIFS|COUNTIF|SUMIFS|SUMIF|MAXIF|MAXIFS|MINIF|MINIFS|SUMPRODUCT)'
@@ -56,7 +57,7 @@ contexts:
       # scope: comment.block.excel
       scope: variable.para.excel
   entities:
-    - match: '(?i)(MATCH|INDEX|HLOOKUP|LOOKUP|VLOOKUP)'
+    - match: '(?i)(MATCH|INDEX|HLOOKUP|LOOKUP|VLOOKUP|LARGE|SMALL)'
       scope: support.constant.excel
       # scope: entity.other.attribute-name.excel
 
@@ -78,6 +79,10 @@ contexts:
   booleans:
     - match: '\b(TRUE|FALSE)\b'
       scope: constant.language.excel    
+
+  volatile:
+    - match: '(?i)\b(CELL|INDIRECT|INFO|NOW|OFFSET|RAND|TODAY)\b'
+      scope: invalid.illegal.excel
 
   strings:
     # Strings begin and end with quotes, and use backslashes as an escape
