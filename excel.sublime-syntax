@@ -1,0 +1,117 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Excel Formula
+file_extensions: [txt]
+scope: source.excel
+variables:
+  # cell reference
+  cell: '(\?$[[:alpha:]]+\$?[[:digit:]]{1,})'
+  formula: '(\b)?([[:alpha:]]+\)('
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+ 
+  # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: keywords
+    - include: comparisons
+    - include: logic
+    - include: entities
+    - include: cells
+    - include: numbers
+    - include: characters
+    - include: characters2
+    - include: booleans
+    - include: strings
+    - include: braces
+
+  keywords:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '(IFERROR|iferror|ifs|if|IFS|IF)'
+      scope: keyword.control.excel
+      # scope: entity.name.type.excel
+      # scope: entity.name.fucntion.excel
+
+  comparisons:
+    - match: '(?i)(AVERAGEIF|AVERAGEIFS|COUNTIFS|COUNTIF|SUMIFS|SUMIF|MAXIF|MAXIFS|MINIF|MINIFS|SUMPRODUCT)'
+      # scope: entity.name.section.excel
+      # scope: keyword.control.excel
+      scope: storage.type.excel # italic and blue
+  logic:
+    - match: '(?i)(OR|AND|NOT|XOR)\b'
+      scope: entity.other.attribute-name.excel
+      # scope: invalid.illegal.excel
+
+  cells:
+    - match: '({{cell}})'
+      # scope: markup.raw.excel
+      # scope: comment.block.excel
+      scope: variable.para.excel
+  entities:
+    - match: '(?i)(MATCH|INDEX|HLOOKUP|LOOKUP|VLOOKUP)'
+      scope: support.constant.excel
+      # scope: entity.other.attribute-name.excel
+
+  numbers:
+    - match: '((-)?[0-9.]+)'
+      # scope: markup.raw.excel
+      # scope: support.constant.excel
+      # scope: constant.numeric.excel
+
+  characters:
+    - match: '(?i)(CHAR|CHOOSE|CODE|ISTEXT|LEN|SUBSTITUTE|TYPE|UNICHAR)'
+      scope: constant.character.excel
+
+  characters2:
+    - match: '(\&|\+|\/|\*|\-|\^)'
+      scope: keyword.operator.excel
+      # scope: keyword.other.excel
+
+  booleans:
+    - match: '\b(TRUE|FALSE)\b'
+      scope: constant.language.excel    
+
+  strings:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character.
+    - match: '"'
+      scope: punctuation.definition.string.begin.excel
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    # - meta_scope: string.quoted.double.excel
+    # - meta_scope: markup.italic.excel
+    - meta_scope: comment.line.double-slash.excel
+    # - meta_scope: markup.raw.excel
+    - match: '"'
+      scope: punctuation.definition.string.end.excel
+      pop: true
+
+  braces:
+    - match: '\['
+      scope: punctuation.definition.generic.begin.excel
+      push:
+        # - meta_scope: markup.raw.excel
+        - meta_scope: variable.language.excel
+        # - meta_scope: variable.parameter.excel
+        - match: '\]+'
+          scope: punctuation.definition.generic.end.excel
+          pop: true
+ #  Table Related
+ #  Table names name: table-name[ column name ]
+ #  Relative columns: table-name[@ [ column name ]]
+ #  Column Ranges table-name[[Heading 1]:[heading N]]
+ #
+ #  double quotes for plain text
+ 
+ #  specific nuances for the main formulae
+
